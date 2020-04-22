@@ -13,9 +13,12 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref, sessionmaker
 
 engine = create_engine('sqlite:///:memory:')
+engine2 = create_engine('sqlite:///:memory:')
 
 Session = sessionmaker(bind=engine)
+Session2 = sessionmaker(bind=engine2)
 session = Session()
+session2 = Session2()
 Base = declarative_base()
 
 
@@ -120,4 +123,6 @@ print_status(cc_cookie)
 session.commit()
 print_status(cc_cookie)
 session.expunge(cc_cookie)
+print_status(cc_cookie)
+session2.add(cc_cookie)
 print_status(cc_cookie)
