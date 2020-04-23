@@ -10,7 +10,7 @@ from sqlalchemy import inspect
 Base = automap_base()
 
 from sqlalchemy import create_engine
-from sqlalchemy.sql import select
+from sqlalchemy.sql import select, func
 
 engine = create_engine('sqlite:///Chinook_Sqlite.sqlite')
 mysql_engine = create_engine("mysql+mysqlconnector://root:@localhost:3306/guest", pool_recycle=3600)
@@ -22,10 +22,9 @@ Artist = Base.classes.Artist
 Album = Base.classes.Album
 
 from sqlalchemy.orm import Session
+from sqlalchemy import insert
 
-sqllite_session = Session(engine)
-nums = sqllite_session.query(Artist).count()
-
+sqlite_session = Session(engine)
 mysql_session = Session(mysql_engine)
 
 
@@ -36,22 +35,20 @@ def print_state(object):
     print()
 
 
-for i in range(0, nums, 100):
-    result = sqllite_session.query(Artist).slice(i, i + 100).all()
-    for j in result:
-        print_state(j)
-        sqllite_session.expunge(j)
-        insp = inspect(j)
-        print_state(j)
-        # item=Artist(ArtistId=j.ArtistId,Name=j.Name)
-        # print_state(item)
-        j._sa_instance_state.transient = True
-        j._sa_instance_state.detached = False
-        mysql_session.add(j)
-        print_state(j)
-        mysql_session.commit()
-    # try:
-    #     mysql_session.commit()
-    # except:
-    #     print("error")
-    #     mysql_session.rollback()
+nums_sql = select([func.count(Artist.Name)])
+select_Sql = select([Artist])
+
+connection = engine.connect()
+mysql_connection = mysql_engine.connect()
+
+nums = connection.execute(nums_sql).first().count_1
+print(nums)
+
+for i in range(0, nums, 10):
+    # select_Sql = select_Sql.slice(i, i + 1000).all()
+    print(i)
+    select_Sql = select_Sql.offset(i).limit(10)
+    results = connection.execute(select_Sql)
+    for result in results:
+        ins = insert(Artist).values(result)
+        mysql_connection.execute(ins)

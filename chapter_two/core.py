@@ -5,7 +5,7 @@ Describe:
 """
 
 from datetime import datetime
-
+from sqlalchemy.sql import select
 from sqlalchemy import (MetaData, Table, Column, Integer, Numeric, String,
                         DateTime, ForeignKey, Boolean, create_engine)
 metadata = MetaData()
@@ -56,3 +56,5 @@ ins = cookies.insert().values(
     unit_cost="0.50"
 )
 print(str(ins))
+
+ins.compile().params
