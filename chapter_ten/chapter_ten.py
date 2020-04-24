@@ -5,12 +5,13 @@ Describe:自动映射进行反射
 """
 
 from sqlalchemy.ext.automap import automap_base
-from sqlalchemy import inspect
+from sqlalchemy import inspect,insert,create_engine
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import select, func
 
 Base = automap_base()
 
-from sqlalchemy import create_engine
-from sqlalchemy.sql import select, func
+
 
 engine = create_engine('sqlite:///Chinook_Sqlite.sqlite')
 mysql_engine = create_engine("mysql+mysqlconnector://root:@localhost:3306/guest", pool_recycle=3600)
@@ -21,8 +22,6 @@ Base.metadata.create_all(mysql_engine)
 Artist = Base.classes.Artist
 Album = Base.classes.Album
 
-from sqlalchemy.orm import Session
-from sqlalchemy import insert
 
 sqlite_session = Session(engine)
 mysql_session = Session(mysql_engine)
