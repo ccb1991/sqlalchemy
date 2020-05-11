@@ -50,11 +50,17 @@ metadata.create_all(engine)
 connection = engine.connect()
 
 ins = cookies.insert().values(
-    cookie_name="chocolate chip",
-    cookie_recipe_url="http://some.aweso.me/cookie/recipe.html",
-    cookie_sku="CC01",
-    quantity="12",
-    unit_cost="0.50"
+    # cookie_name="chocolate chip",
+    # cookie_recipe_url="http://some.aweso.me/cookie/recipe.html",
+    # cookie_sku="CC01",
+    # quantity="12",
+    # unit_cost="0.50"
+    (1,
+    "chocolate chip",
+    "http://some.aweso.me/cookie/recipe.html",
+    "CC01",
+    "12",
+    "0.50")
 )
 print(str(ins))
 
