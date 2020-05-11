@@ -5,7 +5,7 @@ Describe:第八章
 """
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Table, Column, Integer, Numeric, String, Boolean
+from sqlalchemy import Column, Integer, Numeric, String, Boolean
 from datetime import datetime
 from sqlalchemy import DateTime
 from sqlalchemy import create_engine

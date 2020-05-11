@@ -8,6 +8,7 @@ from datetime import datetime
 from sqlalchemy.sql import select
 from sqlalchemy import (MetaData, Table, Column, Integer, Numeric, String,
                         DateTime, ForeignKey, Boolean, create_engine)
+
 metadata = MetaData()
 
 cookies = Table('cookies', metadata,
@@ -57,4 +58,3 @@ ins = cookies.insert().values(
 )
 print(str(ins))
 
-ins.compile().params

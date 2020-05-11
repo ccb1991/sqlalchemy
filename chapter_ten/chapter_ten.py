@@ -46,9 +46,9 @@ print(nums)
 
 for i in range(0, nums, 10):
     # select_Sql = select_Sql.slice(i, i + 1000).all()
-    print(i)
     select_Sql = select_Sql.offset(i).limit(10)
     results = connection.execute(select_Sql)
-    for result in results:
-        ins = insert(Artist).values(result)
-        mysql_connection.execute(ins)
+    list_results=[tuple(i) for i in results]
+    print(list_results)
+    ins = insert(Artist).values(list_results)
+    mysql_connection.execute(ins)
